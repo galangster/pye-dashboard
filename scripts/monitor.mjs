@@ -330,6 +330,7 @@ async function main() {
       s.slowStreak = r.ms > SLOW_MS ? s.slowStreak + 1 : 0;
     } else {
       s.fails += 1;
+      s.slowStreak = 0;
       s.firstFailAt ??= now;
       s.lastError = { kind: r.kind, message: r.message };
       if (s.status !== 'down' && s.fails >= CONFIRM_FAILS) {
@@ -365,7 +366,10 @@ async function main() {
         if (await send(...warningEmail(site, w))) s.warnings[w.key] = { lastAlertAt: now };
       }
     }
-    for (const key of Object.keys(s.warnings)) if (!active.some((w) => w.key === key)) delete s.warnings[key];
+    // Keep a cleared warning's timestamp until its repeat window passes, so a flapping warning still emails once a day at most.
+    for (const [key, w] of Object.entries(s.warnings)) {
+      if (!active.some((a) => a.key === key) && now - w.lastAlertAt >= WARNING_REPEAT_MS) delete s.warnings[key];
+    }
 
     results.push({
       name: site.name,

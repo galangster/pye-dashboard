@@ -1,15 +1,18 @@
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+
 // Sends one test email to the alert recipients. Run from the "test-email" workflow.
 const env = process.env;
 const to = (env.ALERT_TO || 'chris@protectyoungeyes.com,nick@thecreative.company').split(',').map((s) => s.trim()).filter(Boolean);
 const from = env.ALERT_FROM || 'PYE Uptime <alerts@alerts.thecreative.company>';
 
+const sites = JSON.parse(await readFile(path.join(import.meta.dirname, 'sites.json'), 'utf8'));
+const siteList = sites.map((s) => `- ${s.name} (${new URL(s.url).hostname.replace(/^www\./, '')})`).join('\n');
+
 const text = `This is a test from the new PYE uptime monitor. No action is needed.
 
 From now on, it checks these sites every 5 minutes:
-- Protect Young Eyes (protectyoungeyes.com)
-- Tech Ready Family (techreadyfamily.com)
-- Ten Billion Minutes (tenbillionminutes.org)
-- Better Tech Project (bettertechproject.org)
+${siteList}
 
 You'll get an email when:
 - a site is down for 2 checks in a row (about 10 minutes), with a reminder every 2 hours until it's back
@@ -26,6 +29,7 @@ Dashboard: https://pye-dashboard.vercel.app`;
 
 const res = await fetch('https://api.resend.com/emails', {
   method: 'POST',
+  signal: AbortSignal.timeout(15000),
   headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
   body: JSON.stringify({ from, to, subject: '✅ PYE uptime monitor is live (test email)', text }),
 });
