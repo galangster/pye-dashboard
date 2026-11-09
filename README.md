@@ -39,7 +39,7 @@ healthchecks.io check settings: period 5 minutes, grace 30 minutes, email integr
 
 ## Add or change a site
 
-Edit `scripts/sites.json`. `expectedText` must appear in the page HTML (the page title works well). `webflowShortName` matches the site in the Webflow API.
+Edit `scripts/sites.json`. `expectedText` must appear in the page HTML (the page title works well). `webflowShortName` matches the site in the Webflow API. Each site is listed twice, with and without `www.`, so a broken bare-domain redirect alerts too.
 
 ## Test locally
 

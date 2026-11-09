@@ -6,8 +6,20 @@
     "webflowShortName": "protect-young-eyes-e923cf"
   },
   {
+    "name": "Protect Young Eyes (no www)",
+    "url": "https://protectyoungeyes.com/",
+    "expectedText": "Protect Young Eyes",
+    "webflowShortName": "protect-young-eyes-e923cf"
+  },
+  {
     "name": "Tech Ready Family",
     "url": "https://www.techreadyfamily.com/",
+    "expectedText": "Tech-Ready Family",
+    "webflowShortName": "pye-book-website"
+  },
+  {
+    "name": "Tech Ready Family (no www)",
+    "url": "https://techreadyfamily.com/",
     "expectedText": "Tech-Ready Family",
     "webflowShortName": "pye-book-website"
   },
@@ -18,8 +30,20 @@
     "webflowShortName": "ten-billion-minutes-site-b6c1ae"
   },
   {
+    "name": "Ten Billion Minutes (no www)",
+    "url": "https://tenbillionminutes.org/",
+    "expectedText": "Ten Billion Minutes",
+    "webflowShortName": "ten-billion-minutes-site-b6c1ae"
+  },
+  {
     "name": "Better Tech Project",
     "url": "https://www.bettertechproject.org/",
+    "expectedText": "Better Tech Project",
+    "webflowShortName": "better-tech-project"
+  },
+  {
+    "name": "Better Tech Project (no www)",
+    "url": "https://bettertechproject.org/",
     "expectedText": "Better Tech Project",
     "webflowShortName": "better-tech-project"
   }
