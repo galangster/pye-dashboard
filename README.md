@@ -4,7 +4,7 @@ Watches the Protect Young Eyes websites, emails alerts, and shows status at http
 
 ## How it works
 
-- `.github/workflows/monitor.yml` runs `scripts/monitor.mjs` every 5 minutes (GitHub may start a run late).
+- `.github/workflows/monitor.yml` runs `scripts/monitor.mjs` every 5 minutes. GitHub's own schedule never started, so a cron-job.org job (on Nick's account) starts the workflow every 5 minutes through `workflow_dispatch`, using the fine-grained token `pye-uptime-cron` (Actions: write on this repo only). The GitHub schedule stays as a backup.
 - The checker loads each site in `scripts/sites.json`, retries a failure once after 5 seconds, and records the result.
 - It writes `status.json`, `history.json` (7 days) and `state.json` to the `data` branch. The branch is force-pushed as one commit, so the repo does not grow.
 - The dashboard (`src/app/page.tsx`) is a static Next.js export. It reads `status.json` from the `data` branch in the browser. Vercel deploys only from `main` (`vercel.json` turns off deploys from `data`).
