@@ -108,7 +108,7 @@ export default function Dashboard() {
               <div className={`w-4 h-4 rounded-full ${allUp ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
               <div>
                 <h2 className={`text-xl font-semibold ${allUp ? 'text-green-800 dark:text-green-200' : 'text-red-800 dark:text-red-200'}`}>
-                  {allUp ? 'All Systems Operational' : 'Issues Detected'}
+                  {!data ? (loadError ? 'Status unavailable' : 'Loading status…') : allUp ? 'All Systems Operational' : 'Issues Detected'}
                 </h2>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400">
                   Last checked: {data?.displayTime || '—'}
