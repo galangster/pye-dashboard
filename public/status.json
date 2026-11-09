@@ -1,0 +1,75 @@
+{
+  "checkTime": "2026-02-27T16:00:09.170Z",
+  "hstTime": "2/27/2026, 6:00:09 AM",
+  "allHealthy": true,
+  "results": [
+    {
+      "name": "Protect Young Eyes",
+      "url": "https://www.protectyoungeyes.com/",
+      "status": "up",
+      "responseTime": 637,
+      "httpCode": 200,
+      "lastChecked": "2026-02-27T16:00:04.939Z",
+      "webflow": {
+        "lastPublished": "2026-02-24T18:52:03.144Z",
+        "createdOn": "2024-06-27T02:45:28.949Z",
+        "displayName": "Protect Young Eyes",
+        "shortName": "protect-young-eyes-e923cf"
+      },
+      "uptime24h": 100,
+      "uptime7d": 100,
+      "trend": "stable"
+    },
+    {
+      "name": "Tech Ready Family",
+      "url": "https://www.techreadyfamily.com/",
+      "status": "up",
+      "responseTime": 690,
+      "httpCode": 200,
+      "lastChecked": "2026-02-27T16:00:05.053Z",
+      "webflow": {
+        "lastPublished": null,
+        "createdOn": "2026-01-10T21:23:15.431Z",
+        "displayName": "5 Habit Book Website",
+        "shortName": "pye-book-website"
+      },
+      "uptime24h": 100,
+      "uptime7d": 100,
+      "trend": "stable"
+    },
+    {
+      "name": "Ten Billion Minutes",
+      "url": "https://www.tenbillionminutes.org/",
+      "status": "up",
+      "responseTime": 1037,
+      "httpCode": 200,
+      "lastChecked": "2026-02-27T16:00:05.401Z",
+      "webflow": {
+        "lastPublished": null,
+        "createdOn": "2026-01-10T13:29:43.884Z",
+        "displayName": "Ten Billion Minutes",
+        "shortName": "ten-billion-minutes-site-b6c1ae"
+      },
+      "uptime24h": 100,
+      "uptime7d": 100,
+      "trend": "stable"
+    },
+    {
+      "name": "Better Tech Project",
+      "url": "https://www.bettertechproject.org/",
+      "status": "up",
+      "responseTime": 1339,
+      "httpCode": 200,
+      "lastChecked": "2026-02-27T16:00:05.704Z",
+      "webflow": {
+        "lastPublished": "2026-02-05T21:42:20.942Z",
+        "createdOn": "2025-01-20T18:24:10.609Z",
+        "displayName": "Better Tech Project",
+        "shortName": "better-tech-project"
+      },
+      "uptime24h": 100,
+      "uptime7d": 100,
+      "trend": "stable"
+    }
+  ]
+}
