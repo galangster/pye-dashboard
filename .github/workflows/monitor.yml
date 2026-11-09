@@ -1,0 +1,76 @@
+name: monitor
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+
+      # A missing secret must fail loudly, not quietly turn off alerts.
+      - name: Require secrets
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          HC_PING_URL: ${{ secrets.HC_PING_URL }}
+        run: |
+          missing=""
+          [ -z "$RESEND_API_KEY" ] && missing="$missing RESEND_API_KEY"
+          [ -z "$HC_PING_URL" ] && missing="$missing HC_PING_URL"
+          [ -z "$missing" ] || { echo "::error::Missing secrets:$missing"; exit 1; }
+
+      - name: Check out the data branch
+        uses: actions/checkout@v4
+        with:
+          ref: data
+          path: data
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check sites and send alerts
+        id: monitor
+        run: node scripts/monitor.mjs
+        env:
+          DATA_DIR: data
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          WEBFLOW_TOKEN: ${{ secrets.WEBFLOW_TOKEN }}
+          ALERT_TO: ${{ vars.ALERT_TO }}
+          ALERT_FROM: ${{ vars.ALERT_FROM }}
+
+      # Keep the data branch to a single commit so the repo does not grow every 5 minutes.
+      - name: Save dashboard data
+        if: always()
+        working-directory: data
+        run: |
+          git config user.name "pye-monitor"
+          git config user.email "pye-monitor@users.noreply.github.com"
+          git checkout --orphan snapshot
+          git add -A
+          git commit -q -m "Status at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push -q -f origin snapshot:data
+
+      # healthchecks.io emails Chris and Nick if these pings stop or report failure.
+      - name: Report to healthchecks.io
+        if: always()
+        env:
+          HC_PING_URL: ${{ secrets.HC_PING_URL }}
+          OUTCOME: ${{ steps.monitor.outcome }}
+        run: |
+          [ -z "$HC_PING_URL" ] && exit 1
+          url="$HC_PING_URL"; [ "$OUTCOME" = "success" ] || url="$HC_PING_URL/fail"
+          curl -fsS -m 10 --retry 3 "$url" > /dev/null

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Protect Young Eyes",
+    "url": "https://www.protectyoungeyes.com/",
+    "expectedText": "Protect Young Eyes",
+    "webflowShortName": "protect-young-eyes-e923cf"
+  },
+  {
+    "name": "Tech Ready Family",
+    "url": "https://www.techreadyfamily.com/",
+    "expectedText": "Tech-Ready Family",
+    "webflowShortName": "pye-book-website"
+  },
+  {
+    "name": "Ten Billion Minutes",
+    "url": "https://www.tenbillionminutes.org/",
+    "expectedText": "Ten Billion Minutes",
+    "webflowShortName": "ten-billion-minutes-site-b6c1ae"
+  },
+  {
+    "name": "Better Tech Project",
+    "url": "https://www.bettertechproject.org/",
+    "expectedText": "Better Tech Project",
+    "webflowShortName": "better-tech-project"
+  }
+]

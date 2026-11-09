@@ -9,9 +9,11 @@ interface SiteStatus {
   responseTime: number;
   httpCode: number;
   lastChecked: string;
-  uptime24h: number;
-  uptime7d: number;
+  uptime24h: number | null;
+  uptime7d: number | null;
   trend: 'stable' | 'improving' | 'degrading';
+  error?: string | null;
+  warnings?: string[];
   webflow?: {
     lastPublished: string | null;
     displayName: string;
@@ -20,23 +22,32 @@ interface SiteStatus {
 
 interface StatusData {
   checkTime: string;
-  hstTime: string;
+  displayTime: string;
   allHealthy: boolean;
   results: SiteStatus[];
 }
 
+// The monitor (GitHub Actions) writes this file every 5 minutes.
+const STATUS_URL = 'https://raw.githubusercontent.com/galangster/pye-dashboard/data/status.json';
+// GitHub can start scheduled runs late, so allow 45 minutes before calling the data stale.
+// healthchecks.io is the real alarm for a stopped monitor; this banner is for people viewing the page.
+const STALE_AFTER_MS = 45 * 60 * 1000;
+
 export default function Dashboard() {
   const [data, setData] = useState<StatusData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
   const fetchStatus = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/status.json?t=' + Date.now());
+      const res = await fetch(STATUS_URL + '?t=' + Date.now(), { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch');
-      const json = await res.json();
-      setData(json);
-    } catch (e) {}
+      setData(await res.json());
+      setLoadError(false);
+    } catch {
+      setLoadError(true);
+    }
     setLoading(false);
   };
 
@@ -48,6 +59,7 @@ export default function Dashboard() {
 
   const sites = data?.results || [];
   const allUp = data?.allHealthy ?? false;
+  const stale = data ? Date.now() - Date.parse(data.checkTime) > STALE_AFTER_MS : false;
 
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return 'Never';
@@ -56,8 +68,8 @@ export default function Dashboard() {
       day: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
-      timeZone: 'Pacific/Honolulu'
-    });
+      timeZone: 'America/Detroit'
+    }) + ' ET';
   };
 
   const getTrendIcon = (trend: string) => {
@@ -81,6 +93,14 @@ export default function Dashboard() {
           </p>
         </div>
 
+        {(stale || loadError) && (
+          <div role="alert" className="rounded-2xl p-4 mb-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200">
+            {loadError
+              ? 'Could not load the latest status. The figures below may be out of date.'
+              : `The monitor has not reported since ${data?.displayTime}. Treat this page as out of date until it resumes.`}
+          </div>
+        )}
+
         {/* Status Overview */}
         <div className={`rounded-2xl p-6 mb-8 ${allUp ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800' : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'}`}>
           <div className="flex items-center justify-between">
@@ -91,7 +111,7 @@ export default function Dashboard() {
                   {allUp ? 'All Systems Operational' : 'Issues Detected'}
                 </h2>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Last checked: {data?.hstTime || '—'}
+                  Last checked: {data?.displayTime || '—'}
                 </p>
               </div>
             </div>
@@ -126,7 +146,7 @@ export default function Dashboard() {
                     {site.url}
                   </a>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                <span className={`shrink-0 px-3 py-1 rounded-full text-sm font-medium ${
                   site.status === 'up' 
                     ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' 
                     : 'bg-red-100 text-red-800'
@@ -135,6 +155,13 @@ export default function Dashboard() {
                 </span>
               </div>
               
+              {site.error && (
+                <p className="text-sm text-red-700 dark:text-red-300 mb-4">{site.error}</p>
+              )}
+              {site.warnings?.map((w) => (
+                <p key={w} className="text-sm text-amber-700 dark:text-amber-300 mb-2">⚠️ {w}</p>
+              ))}
+
               {/* Stats Grid */}
               <div className="grid grid-cols-3 gap-4 text-sm mb-4">
                 <div>
@@ -143,11 +170,11 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <p className="text-zinc-500 dark:text-zinc-400">24h Uptime</p>
-                  <p className="font-medium text-green-600 dark:text-green-400">{site.uptime24h}%</p>
+                  <p className={`font-medium ${site.uptime24h !== null && site.uptime24h < 99 ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>{site.uptime24h ?? '—'}{site.uptime24h !== null && '%'}</p>
                 </div>
                 <div>
                   <p className="text-zinc-500 dark:text-zinc-400">7d Uptime</p>
-                  <p className="font-medium text-zinc-900 dark:text-white">{site.uptime7d}%</p>
+                  <p className="font-medium text-zinc-900 dark:text-white">{site.uptime7d ?? '—'}{site.uptime7d !== null && '%'}</p>
                 </div>
               </div>
 
@@ -169,7 +196,7 @@ export default function Dashboard() {
 
         {/* Footer */}
         <div className="text-center text-sm text-zinc-500 dark:text-zinc-400">
-          <p>Monitors every 5 minutes • Data updates twice daily</p>
+          <p>Checks every 5 minutes • Email alerts on downtime, SSL and domain expiry</p>
         </div>
       </div>
     </div>
