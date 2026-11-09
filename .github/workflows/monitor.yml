@@ -1,6 +1,7 @@
 name: monitor
 
 on:
+  # Every 5 minutes. GitHub may start a scheduled run a few minutes late.
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
