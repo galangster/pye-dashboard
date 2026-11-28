@@ -1,0 +1,145 @@
+{
+  "sites": {
+    "Protect Young Eyes": {
+      "status": "up",
+      "fails": 0,
+      "slowStreak": 0,
+      "warnings": {},
+      "firstFailAt": null,
+      "downSince": null,
+      "lastAlertAt": null,
+      "lastError": null,
+      "lastOkAt": 1795867513179
+    },
+    "Tech Ready Family": {
+      "status": "up",
+      "fails": 0,
+      "slowStreak": 0,
+      "warnings": {},
+      "firstFailAt": null,
+      "downSince": null,
+      "lastAlertAt": null,
+      "lastError": null,
+      "lastOkAt": 1795867513179
+    },
+    "Ten Billion Minutes": {
+      "status": "up",
+      "fails": 0,
+      "slowStreak": 0,
+      "warnings": {},
+      "firstFailAt": null,
+      "downSince": null,
+      "lastAlertAt": null,
+      "lastError": null,
+      "lastOkAt": 1795867513179
+    },
+    "Better Tech Project": {
+      "status": "up",
+      "fails": 0,
+      "slowStreak": 0,
+      "warnings": {},
+      "firstFailAt": null,
+      "downSince": null,
+      "lastAlertAt": null,
+      "lastError": null,
+      "lastOkAt": 1795867513179
+    },
+    "Protect Young Eyes (no www)": {
+      "status": "up",
+      "fails": 0,
+      "slowStreak": 0,
+      "warnings": {},
+      "firstFailAt": null,
+      "downSince": null,
+      "lastAlertAt": null,
+      "lastError": null,
+      "lastOkAt": 1795867513179
+    },
+    "Tech Ready Family (no www)": {
+      "status": "up",
+      "fails": 0,
+      "slowStreak": 0,
+      "warnings": {},
+      "firstFailAt": null,
+      "downSince": null,
+      "lastAlertAt": null,
+      "lastError": null,
+      "lastOkAt": 1795867513179
+    },
+    "Ten Billion Minutes (no www)": {
+      "status": "up",
+      "fails": 0,
+      "slowStreak": 0,
+      "warnings": {},
+      "firstFailAt": null,
+      "downSince": null,
+      "lastAlertAt": null,
+      "lastError": null,
+      "lastOkAt": 1795867513179
+    },
+    "Better Tech Project (no www)": {
+      "status": "up",
+      "fails": 0,
+      "slowStreak": 0,
+      "warnings": {},
+      "firstFailAt": null,
+      "downSince": null,
+      "lastAlertAt": null,
+      "lastError": null,
+      "lastOkAt": 1795867513179
+    }
+  },
+  "domains": {
+    "protectyoungeyes.com": {
+      "expiresAt": "2031-04-07T03:50:28Z",
+      "checkedAt": 1795802114596
+    },
+    "techreadyfamily.com": {
+      "expiresAt": "2027-01-17T18:57:21Z",
+      "checkedAt": 1795802114547
+    },
+    "bettertechproject.org": {
+      "expiresAt": "2027-10-07T20:41:02.711Z",
+      "checkedAt": 1795802114726
+    },
+    "tenbillionminutes.org": {
+      "expiresAt": "2027-01-08T21:26:40.123Z",
+      "checkedAt": 1795802114700
+    }
+  },
+  "certs": {
+    "www.protectyoungeyes.com": {
+      "expiresAt": "2027-02-09T05:26:00.000Z",
+      "checkedAt": 1795800620157
+    },
+    "www.techreadyfamily.com": {
+      "expiresAt": "2027-02-07T00:43:07.000Z",
+      "checkedAt": 1795802114420
+    },
+    "www.tenbillionminutes.org": {
+      "expiresAt": "2027-02-24T11:39:17.000Z",
+      "checkedAt": 1795802114476
+    },
+    "www.bettertechproject.org": {
+      "expiresAt": "2027-02-19T14:21:18.000Z",
+      "checkedAt": 1795802114514
+    },
+    "protectyoungeyes.com": {
+      "expiresAt": "2027-02-15T18:53:42.000Z",
+      "checkedAt": 1795805414546
+    },
+    "techreadyfamily.com": {
+      "expiresAt": "2027-02-07T01:40:32.000Z",
+      "checkedAt": 1795805414688
+    },
+    "tenbillionminutes.org": {
+      "expiresAt": "2027-02-07T20:25:04.000Z",
+      "checkedAt": 1795805414740
+    },
+    "bettertechproject.org": {
+      "expiresAt": "2027-01-30T05:16:42.000Z",
+      "checkedAt": 1795805414815
+    }
+  },
+  "webflow": {}
+}
